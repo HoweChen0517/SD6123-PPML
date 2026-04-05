@@ -13,4 +13,9 @@ def generate_json_config(args):
         "seed": args.seed,
         "mu": getattr(args, "mu", None),
         "plocal_epochs": getattr(args, "plocal_epochs", None),
+        "dp_enabled": getattr(args, "optimizer", "").lower() == "dp_sgd",
+        "dp_noise_multiplier": getattr(args, "dp_noise_multiplier", None),
+        "dp_sample_rate": getattr(args, "dp_sample_rate", None),
+        "dp_delta": getattr(args, "dp_delta", None),
+        "dp_max_grad_norm": getattr(args, "dp_max_grad_norm", None),
     }

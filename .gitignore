@@ -15,3 +15,6 @@ mnist/
 
 # macos
 .DS_Store
+
+# result
+result/

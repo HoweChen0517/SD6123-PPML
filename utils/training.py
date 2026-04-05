@@ -55,7 +55,7 @@ def sample_client_indices(num_clients, clients_per_round, seed, round_idx):
 
 def create_optimizer(args, params):
     optim_name = args.optimizer.lower()
-    if optim_name == "sgd":
+    if optim_name in {"sgd", "dp_sgd"}:
         return torch.optim.SGD(params, lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
     if optim_name == "adam":
         return torch.optim.Adam(params, lr=args.lr, weight_decay=args.weight_decay)

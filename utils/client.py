@@ -3,6 +3,7 @@ import copy
 import torch
 from torch import nn
 
+from .dp import compute_dp_epsilon, dp_sgd_step, is_dp_optimizer, resolve_dp_sample_rate
 from .training import create_optimizer, create_scheduler, evaluate_model
 
 
@@ -19,6 +20,15 @@ class Client(nn.Module):
         self.test_loader = test_loader
         self.model = model_fn().to(self.device)
         self.criterion = nn.CrossEntropyLoss()
+        self.use_dp = is_dp_optimizer(args.optimizer)
+        self.dp_noise_multiplier = getattr(args, "dp_noise_multiplier", 0.0)
+        self.dp_max_grad_norm = getattr(args, "dp_max_grad_norm", self.grad_clip)
+        self.dp_sample_rate = resolve_dp_sample_rate(
+            getattr(args, "dp_sample_rate", None), args.batch_size, len(self.train_loader.dataset)
+        )
+        default_delta = 1.0 / max(len(self.train_loader.dataset), 1)
+        self.dp_delta = getattr(args, "dp_delta", default_delta)
+        self.dp_steps = 0
         self.optimizer = create_optimizer(args, self.model.parameters())
         total_steps = max(len(self.train_loader) * self.local_epochs * args.global_rounds, 1)
         self.scheduler = create_scheduler(self.optimizer, total_steps)
@@ -37,12 +47,38 @@ class Client(nn.Module):
         loss, _ = evaluate_model(self.model, self.val_loader, self.device, self.criterion)
         return loss
 
+    def current_privacy_epsilon(self):
+        if not self.use_dp:
+            return None
+        return compute_dp_epsilon(
+            sample_rate=self.dp_sample_rate,
+            noise_multiplier=self.dp_noise_multiplier,
+            steps=self.dp_steps,
+            delta=self.dp_delta,
+        )
+
     def fine_tune(self):
         self.model.train()
         for _ in range(self.local_epochs):
             for inputs, labels in self.train_loader:
                 inputs = inputs.to(self.device)
                 labels = labels.to(self.device)
+                if self.use_dp:
+                    selected = dp_sgd_step(
+                        model=self.model,
+                        optimizer=self.optimizer,
+                        criterion=self.criterion,
+                        inputs=inputs,
+                        labels=labels,
+                        max_grad_norm=self.dp_max_grad_norm,
+                        noise_multiplier=self.dp_noise_multiplier,
+                        sample_rate=self.dp_sample_rate,
+                        scheduler=self.scheduler,
+                    )
+                    if selected > 0:
+                        self.dp_steps += 1
+                    continue
+
                 logits = self.model(inputs)
                 loss = self.criterion(logits, labels)
                 self.optimizer.zero_grad()
