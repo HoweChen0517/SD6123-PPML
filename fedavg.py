@@ -58,7 +58,7 @@ def run(args):
         reset=True,
     )
 
-    stopper = EarlyStopper(args.patience)
+    stopper = EarlyStopper(args.patience, args.early_stop_burn_in)
     total_train_time = 0.0
     total_comm_cost = 0
     for round_idx in range(args.global_rounds):
@@ -125,6 +125,7 @@ if __name__ == "__main__":
     parser.add_argument("--val_ratio", type=float, default=0.1)
     parser.add_argument("--grad_clip", type=float, default=10.0)
     parser.add_argument("--patience", type=int, default=10)
+    parser.add_argument("--early_stop_burn_in", type=int, default=100)
     parser.add_argument("--device", type=str, default="cuda")
     parser.add_argument("--device_id", type=int, default=0)
     parser.add_argument("--num_workers", type=int, default=0)

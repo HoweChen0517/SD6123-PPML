@@ -102,17 +102,20 @@ def write_jsonl(path, payload, reset=False):
 
 
 class EarlyStopper:
-    def __init__(self, patience):
+    def __init__(self, patience, burn_in=100):
         self.patience = patience
+        self.burn_in = burn_in
         self.best_loss = float("inf")
         self.counter = 0
+        self.seen_rounds = 0
 
     def step(self, loss):
+        self.seen_rounds += 1
         improved = loss < self.best_loss
         if improved:
             self.best_loss = loss
             self.counter = 0
         else:
             self.counter += 1
-        should_stop = self.counter >= self.patience
+        should_stop = self.seen_rounds > self.burn_in and self.counter >= self.patience
         return improved, should_stop
