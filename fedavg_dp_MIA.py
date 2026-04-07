@@ -127,7 +127,7 @@ def run(args):
         client.set_parameters(global_state)
 
     criterion = nn.CrossEntropyLoss()
-    result_path = os.path.join("result", "fedavg_dp_MIA", f"{args.dataset}_{args.partition}.jsonl")
+    result_path = os.path.join("result", "fedavg_dp_MIA", f"{args.dataset}_{args.partition}_sigma({args.dp_noise_multiplier})_q({args.dp_sample_rate})_C({args.dp_max_grad_norm}).jsonl")
     os.makedirs(os.path.dirname(result_path), exist_ok=True)
     write_jsonl(
         result_path,
