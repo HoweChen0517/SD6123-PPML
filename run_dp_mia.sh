@@ -23,8 +23,8 @@ for d in "${dataset[@]}"; do
                             --optimizer "dp_sgd" \
                             --device "mps" \
                             --global_rounds "$GLOBAL_ROUNDS" \
-                            --dp_noise_multiplier "$SIGMA" \
-                            --dp_sample_rate "$Q" \
+                            --dp_noise_multiplier "$s" \
+                            --dp_sample_rate "$q" \
                             --dp_max_grad_norm "$c" 
                     done
                 done
