@@ -353,6 +353,7 @@ dependencies = [
     { name = "ipykernel" },
     { name = "matplotlib" },
     { name = "numpy" },
+    { name = "opacus" },
     { name = "pandas" },
     { name = "pillow" },
     { name = "pyarrow" },
@@ -366,6 +367,7 @@ requires-dist = [
     { name = "ipykernel", specifier = ">=7.2.0" },
     { name = "matplotlib", specifier = ">=3.10.8" },
     { name = "numpy", specifier = ">=2.4.4" },
+    { name = "opacus", specifier = ">=1.5.4" },
     { name = "pandas", specifier = ">=3.0.2" },
     { name = "pillow", specifier = ">=12.1.1" },
     { name = "pyarrow", specifier = ">=23.0.1" },
@@ -943,6 +945,30 @@ source = { registry = "https://pypi.org/simple" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c2/f3/d86c845465a2723ad7e1e5c36dcd75ddb82898b3f53be47ebd429fb2fa5d/nvidia_nvtx-13.0.85-py3-none-manylinux1_x86_64.manylinux_2_5_x86_64.whl", hash = "sha256:4936d1d6780fbe68db454f5e72a42ff64d1fd6397df9f363ae786930fd5c1cd4", size = 148047, upload-time = "2025-09-04T08:29:01.761Z" },
     { url = "https://files.pythonhosted.org/packages/a8/64/3708a90d1ebe202ffdeb7185f878a3c84d15c2b2c31858da2ce0583e2def/nvidia_nvtx-13.0.85-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:cb7780edb6b14107373c835bf8b72e7a178bac7367e23da7acb108f973f157a6", size = 148878, upload-time = "2025-09-04T08:28:53.627Z" },
+]
+
+[[package]]
+name = "opacus"
+version = "1.5.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "opt-einsum" },
+    { name = "scipy" },
+    { name = "torch" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/df/de/25e455b62c73f10bf41d3e029016881e414de0c6f3f5af82b42dc10f7ca1/opacus-1.5.4.tar.gz", hash = "sha256:ea700808c0a8c3fb7e565ed55b77b3170d6a54cb30e295b255e3877170edc5ca", size = 151407, upload-time = "2025-05-27T16:23:57.514Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/a7/7e/8c9e798b1789861beec036b456b71a079f83963c7e2814814f1370dea667/opacus-1.5.4-py3-none-any.whl", hash = "sha256:a0ca27974e825d86635c82f08ebb380a373613c121066bc0b8e29e42d9f961a5", size = 254361, upload-time = "2025-05-27T16:23:55.827Z" },
+]
+
+[[package]]
+name = "opt-einsum"
+version = "3.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/8c/b9/2ac072041e899a52f20cf9510850ff58295003aa75525e58343591b0cbfb/opt_einsum-3.4.0.tar.gz", hash = "sha256:96ca72f1b886d148241348783498194c577fa30a8faac108586b14f1ba4473ac", size = 63004, upload-time = "2024-09-26T14:33:24.483Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/23/cd/066e86230ae37ed0be70aae89aabf03ca8d9f39c8aea0dec8029455b5540/opt_einsum-3.4.0-py3-none-any.whl", hash = "sha256:69bb92469f86a1565195ece4ac0323943e83477171b91d24c35afe028a90d7cd", size = 71932, upload-time = "2024-09-26T14:33:23.039Z" },
 ]
 
 [[package]]
