@@ -91,7 +91,7 @@ if __name__ == "__main__":
     parser.add_argument("--momentum", type=float, default=0.9)
     parser.add_argument("--weight_decay", type=float, default=1e-4)
     parser.add_argument("--batch_size", type=int, default=64)
-    parser.add_argument("--local_epochs", type=int, default=1)
+    parser.add_argument("--local_epochs", type=int, default=5)
     parser.add_argument("--global_rounds", type=int, default=50)
     parser.add_argument("--num_clients", type=int, default=10)
     parser.add_argument("--clients_per_round", type=int, default=10)
